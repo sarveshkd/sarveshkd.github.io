@@ -117,9 +117,9 @@ function Sculpture({
     }
 
     const azimuth = controls.current?.getAzimuthalAngle() ?? 0
-    const degrees = ((azimuth * 180) / Math.PI + 360) % 360
+    const degrees = (Math.round((azimuth * 180) / Math.PI) % 360 + 360) % 360
     if (angleRef.current) {
-      angleRef.current.textContent = `${Math.round(degrees).toString().padStart(3, "0")}°`
+      angleRef.current.textContent = `${degrees.toString().padStart(3, "0")}°`
     }
   })
 
