@@ -19,9 +19,9 @@ Open [http://127.0.0.1:3000](http://127.0.0.1:3000).
 
 ## GitHub Pages
 
-The site is a static export, meant for a user site at `https://<username>.github.io`.
+The live site is [https://sarveshkd.github.io](https://sarveshkd.github.io).
 
-Pushing `main` to a repository named `<username>.github.io` runs `.github/workflows/pages.yml`, which publishes the `out/` folder. In that repository, set Settings → Pages → Source to GitHub Actions.
+Pushing `main` to `sarveshkd/sarveshkd.github.io` runs `.github/workflows/pages.yml`, which publishes the `out/` folder with GitHub Actions.
 
 ## Stack
 
