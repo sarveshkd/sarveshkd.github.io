@@ -37,23 +37,23 @@ export function Story() {
         },
       })
 
-      timeline.to({}, { duration: 0.4 })
-      timeline.to(panels[0], { autoAlpha: 0, y: -36, duration: 0.45 })
+      timeline.to({}, { duration: 0.45 })
+      timeline.to(panels[0], { autoAlpha: 0, y: -28, duration: 0.3 })
       timeline.fromTo(
         panels[1],
-        { autoAlpha: 0, y: 48 },
-        { autoAlpha: 1, y: 0, duration: 0.45 },
-        "<"
+        { autoAlpha: 0, y: 36 },
+        { autoAlpha: 1, y: 0, duration: 0.35 },
+        "-=0.08"
       )
-      timeline.to({}, { duration: 0.4 })
-      timeline.to(panels[1], { autoAlpha: 0, y: -36, duration: 0.45 })
+      timeline.to({}, { duration: 0.45 })
+      timeline.to(panels[1], { autoAlpha: 0, y: -28, duration: 0.3 })
       timeline.fromTo(
         panels[2],
-        { autoAlpha: 0, y: 48 },
-        { autoAlpha: 1, y: 0, duration: 0.45 },
-        "<"
+        { autoAlpha: 0, y: 36 },
+        { autoAlpha: 1, y: 0, duration: 0.35 },
+        "-=0.08"
       )
-      timeline.to({}, { duration: 0.35 })
+      timeline.to({}, { duration: 0.4 })
     })
 
     return () => match.revert()
