@@ -333,12 +333,16 @@ html.has-cursor button {
     inset: 0;
   }
 
-  html.js .story-panel:not(:first-child) {
+  .story-panel:not(:first-child) {
     opacity: 0;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .intro-screen {
+    display: none;
+  }
+
   .story-stage {
     height: auto !important;
   }

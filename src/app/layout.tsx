@@ -46,11 +46,6 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${geistSans.variable} ${geistMono.variable} ${instrument.variable} dark h-full antialiased`}
     >
       <body className="min-h-full bg-background text-foreground">
-        <script
-          dangerouslySetInnerHTML={{
-            __html: "document.documentElement.classList.add('js')",
-          }}
-        />
         <div className="grain pointer-events-none fixed inset-0 z-[55] opacity-[0.16] mix-blend-overlay" />
         <SmoothScroll>
           <CustomCursor />
