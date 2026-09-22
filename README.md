@@ -14,9 +14,14 @@ Open [http://127.0.0.1:3000](http://127.0.0.1:3000).
 ## Scripts
 
 - `npm run dev` — start the Next.js dev server
-- `npm run build` — production build
-- `npm run start` — serve the production build
+- `npm run build` — write the static site to `out/`
 - `npm run lint` — lint the project
+
+## GitHub Pages
+
+The site is a static export, meant for a user site at `https://<username>.github.io`.
+
+Pushing `main` to a repository named `<username>.github.io` runs `.github/workflows/pages.yml`, which publishes the `out/` folder. In that repository, set Settings → Pages → Source to GitHub Actions.
 
 ## Stack
 
