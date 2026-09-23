@@ -1,6 +1,7 @@
 export const profile = {
   name: "Sarvesh Kurhade",
   photo: "/portrait.jpg",
+  portrait: "/portrait-hero.jpg",
   role: "Cloud engineer & ServiceNow developer",
   location: "Toronto, Ontario",
   availability: "Open to IT roles",

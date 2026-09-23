@@ -1,7 +1,6 @@
 "use client"
 
-import { useEffect, useLayoutEffect, useRef, useState } from "react"
-import dynamic from "next/dynamic"
+import { useLayoutEffect, useRef, useState } from "react"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { ArrowUpRight } from "lucide-react"
@@ -13,31 +12,9 @@ import { cn } from "@/lib/utils"
 
 gsap.registerPlugin(ScrollTrigger)
 
-const HeroScene = dynamic(
-  () => import("@/components/hero-scene").then((mod) => mod.HeroScene),
-  { ssr: false }
-)
-
-type OrbitApi = { nudge: (direction: number) => void }
-
 export function Hero() {
   const root = useRef<HTMLElement>(null)
-  const frame = useRef<HTMLDivElement>(null)
-  const angleRef = useRef<HTMLSpanElement>(null)
-  const apiRef = useRef<OrbitApi | null>(null)
-  const [active, setActive] = useState(true)
   const [copied, setCopied] = useState(false)
-
-  useEffect(() => {
-    const node = frame.current
-    if (!node) return
-    const observer = new IntersectionObserver(
-      ([entry]) => setActive(entry.isIntersecting),
-      { threshold: 0.08 }
-    )
-    observer.observe(node)
-    return () => observer.disconnect()
-  }, [])
 
   useLayoutEffect(() => {
     if (prefersReducedMotion()) return
@@ -57,6 +34,17 @@ export function Hero() {
         delay: 0.95,
         ease: "power3.out",
       })
+      gsap.fromTo(
+        ".hero-portrait-img",
+        { scale: 1.06 },
+        {
+          scale: 1,
+          duration: 1.8,
+          ease: "power3.out",
+          delay: 0.35,
+          transformOrigin: "center top",
+        }
+      )
       gsap.to(".hero-copy", {
         y: -70,
         ease: "none",
@@ -70,12 +58,6 @@ export function Hero() {
     }, root)
     return () => context.revert()
   }, [])
-
-  const onKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
-    if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return
-    event.preventDefault()
-    apiRef.current?.nudge(event.key === "ArrowRight" ? 1 : -1)
-  }
 
   const copyEmail = async () => {
     try {
@@ -145,38 +127,31 @@ export function Hero() {
           </dl>
         </div>
 
-        <div
-          ref={frame}
-          tabIndex={0}
-          role="application"
-          aria-label="Orbital sculpture. Drag to rotate a full 360 degrees, or use the left and right arrow keys."
-          data-cursor="grow"
-          onKeyDown={onKeyDown}
-          className="relative h-[72vw] min-h-[340px] max-h-[720px] outline-none focus-visible:ring-2 focus-visible:ring-[#8fd0c8] lg:h-full lg:min-h-[560px] lg:max-h-none"
-        >
-          <div className="pointer-events-none absolute inset-[8%] rounded-full bg-[radial-gradient(circle,rgba(143,208,200,0.2),transparent_68%)]" />
-          <span className="corner corner-tl" />
-          <span className="corner corner-tr" />
-          <span className="corner corner-bl" />
-          <span className="corner corner-br" />
-          <span className="chip pointer-events-none absolute top-[12%] left-[8%]">AWS</span>
-          <span className="chip pointer-events-none absolute top-[22%] right-[8%]">Azure</span>
-          <span className="chip pointer-events-none absolute bottom-[24%] left-[6%]">
-            ServiceNow
-          </span>
-          <span className="chip pointer-events-none absolute right-[10%] bottom-[16%]">
-            AI / ML
-          </span>
-          <div className="absolute inset-0">
-            <HeroScene angleRef={angleRef} apiRef={apiRef} active={active} />
+        <figure className="hero-fade relative max-lg:order-first lg:h-[min(82svh,860px)]">
+          <div className="relative aspect-[3/4] overflow-hidden bg-[#101317] lg:aspect-auto lg:h-full">
+            <img
+              src={profile.portrait}
+              alt="Sarvesh Kurhade, photographed outdoors in a blue blazer"
+              width={1200}
+              height={1707}
+              className="hero-portrait-img h-full w-full origin-top object-cover object-top"
+            />
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#08090b]/80 via-transparent to-transparent" />
+            <span className="corner corner-tl" />
+            <span className="corner corner-tr" />
+            <span className="corner corner-bl" />
+            <span className="corner corner-br" />
+            <figcaption className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 px-5 py-5">
+              <span>
+                <span className="block text-sm font-medium text-[#f4f1ea]">{profile.name}</span>
+                <span className="mt-1 block text-sm text-[#d5ddd8]">{profile.role}</span>
+              </span>
+              <span className="font-mono text-[0.68rem] tracking-[0.16em] text-[#c9d4ce] uppercase">
+                {profile.location}
+              </span>
+            </figcaption>
           </div>
-          <div className="pointer-events-none absolute inset-x-4 bottom-3 flex items-center justify-between font-mono text-[0.68rem] tracking-[0.16em] text-[#c9d4ce] uppercase">
-            <span>
-              Orbit <span ref={angleRef}>000°</span>
-            </span>
-            <span className="hidden sm:inline">Drag to rotate 360°</span>
-          </div>
-        </div>
+        </figure>
       </div>
     </section>
   )
