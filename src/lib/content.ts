@@ -1,7 +1,6 @@
 export const profile = {
   name: "Sarvesh Kurhade",
-  /** Public path to a portrait. Left empty until a photo is added. */
-  photo: null as string | null,
+  photo: "/portrait.jpg",
   role: "Cloud engineer & ServiceNow developer",
   location: "Toronto, Ontario",
   availability: "Open to IT roles",
