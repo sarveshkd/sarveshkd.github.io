@@ -1,11 +1,12 @@
 "use client"
 
-import { useEffect, useRef, useSyncExternalStore } from "react"
+import { Suspense, useEffect, useLayoutEffect, useRef, useSyncExternalStore } from "react"
 import { Canvas, useFrame } from "@react-three/fiber"
-import { ContactShadows, OrbitControls } from "@react-three/drei"
-import { MathUtils, ACESFilmicToneMapping, type Group } from "three"
+import { Billboard, ContactShadows, OrbitControls, useTexture } from "@react-three/drei"
+import { MathUtils, ACESFilmicToneMapping, SRGBColorSpace, type Group } from "three"
 import type { OrbitControls as OrbitControlsImpl } from "three-stdlib"
 import { CssOrbit } from "@/components/css-orbit"
+import { profile } from "@/lib/content"
 import { prefersReducedMotion } from "@/lib/lenis"
 
 type OrbitApi = { nudge: (direction: number) => void }
@@ -58,6 +59,21 @@ function Particles() {
         depthWrite={false}
       />
     </points>
+  )
+}
+
+function Portrait() {
+  const texture = useTexture(profile.portrait)
+  useLayoutEffect(() => {
+    texture.colorSpace = SRGBColorSpace
+    texture.needsUpdate = true
+  }, [texture])
+
+  return (
+    <mesh>
+      <planeGeometry args={[1.9, 2.6]} />
+      <meshBasicMaterial map={texture} toneMapped={false} />
+    </mesh>
   )
 }
 
@@ -126,33 +142,22 @@ function Sculpture({
   return (
     <>
       <group ref={tilt}>
-        <mesh>
-          <icosahedronGeometry args={[0.62, 1]} />
-          <meshPhysicalMaterial
-            color="#14302d"
-            emissive="#7dcec6"
-            emissiveIntensity={0.42}
-            metalness={0.62}
-            roughness={0.2}
-            clearcoat={1}
-            clearcoatRoughness={0.18}
-          />
-        </mesh>
-        <mesh>
-          <icosahedronGeometry args={[0.68, 1]} />
-          <meshBasicMaterial color="#b7ebe4" wireframe transparent opacity={0.28} />
-        </mesh>
+        <Billboard>
+          <Suspense fallback={null}>
+            <Portrait />
+          </Suspense>
+        </Billboard>
 
         <mesh rotation={[Math.PI / 2.2, 0.18, 0.15]}>
-          <torusGeometry args={[1.22, 0.011, 16, 140]} />
+          <torusGeometry args={[2.05, 0.011, 16, 140]} />
           <meshStandardMaterial color="#e2d0b0" metalness={0.92} roughness={0.22} />
         </mesh>
         <mesh rotation={[1.08, 0.86, 0.2]}>
-          <torusGeometry args={[1.62, 0.008, 12, 150]} />
+          <torusGeometry args={[2.4, 0.008, 12, 150]} />
           <meshStandardMaterial color="#8fd0c8" metalness={0.8} roughness={0.26} />
         </mesh>
         <mesh rotation={[0.32, 1.2, 0.9]}>
-          <torusGeometry args={[2.02, 0.0055, 12, 160]} />
+          <torusGeometry args={[2.75, 0.0055, 12, 160]} />
           <meshStandardMaterial
             color="#f4f1ea"
             metalness={0.84}
@@ -163,7 +168,7 @@ function Sculpture({
         </mesh>
 
         <group ref={orbitA}>
-          <mesh position={[1.22, 0, 0]}>
+          <mesh position={[2.05, 0, 0]}>
             <sphereGeometry args={[0.07, 24, 24]} />
             <meshStandardMaterial
               color="#9be0d8"
@@ -175,7 +180,7 @@ function Sculpture({
           </mesh>
         </group>
         <group ref={orbitB} rotation={[0.85, 0.35, 0.15]}>
-          <mesh position={[1.62, 0, 0]}>
+          <mesh position={[2.4, 0, 0]}>
             <sphereGeometry args={[0.05, 24, 24]} />
             <meshStandardMaterial
               color="#e4d0ae"
@@ -185,7 +190,7 @@ function Sculpture({
           </mesh>
         </group>
         <group ref={orbitC} rotation={[0.25, 0.4, 1.05]}>
-          <mesh position={[2.02, 0, 0]}>
+          <mesh position={[2.75, 0, 0]}>
             <sphereGeometry args={[0.042, 20, 20]} />
             <meshStandardMaterial color="#f7f4ee" emissive="#f3f1ea" emissiveIntensity={0.25} />
           </mesh>
@@ -195,7 +200,7 @@ function Sculpture({
       </group>
 
       <ContactShadows
-        position={[0, -1.55, 0]}
+        position={[0, -1.45, 0]}
         opacity={0.38}
         scale={8}
         blur={2.4}
@@ -248,7 +253,7 @@ export function HeroScene({
 
   return (
     <Canvas
-      camera={{ position: [0.15, 0.42, 5.35], fov: 30 }}
+      camera={{ position: [0.1, 0.12, 5.15], fov: 32 }}
       dpr={[1, 1.6]}
       frameloop={active ? "always" : "demand"}
       gl={{

@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useRef } from "react"
+import { profile } from "@/lib/content"
 import { prefersReducedMotion } from "@/lib/lenis"
 
 type OrbitApi = { nudge: (direction: number) => void }
@@ -82,7 +83,11 @@ export function CssOrbit({
         <span className="orbit-ring orbit-ring-a" />
         <span className="orbit-ring orbit-ring-b" />
         <span className="orbit-ring orbit-ring-c" />
-        <span className="absolute left-1/2 top-1/2 size-16 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle_at_35%_30%,#e7fffb,#1a4a46_45%,#07110f_78%)] shadow-[0_0_40px_rgba(143,208,200,0.45)]" />
+        <img
+          src={profile.portrait}
+          alt=""
+          className="absolute left-1/2 top-1/2 h-[78%] w-[46%] -translate-x-1/2 -translate-y-1/2 object-cover object-top shadow-[0_18px_50px_rgba(0,0,0,0.45)]"
+        />
       </div>
     </div>
   )
