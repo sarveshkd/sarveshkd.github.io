@@ -67,9 +67,9 @@ export function SiteHeader() {
             <img
               src={profile.photo}
               alt=""
-              width={44}
-              height={44}
-              className="size-11 shrink-0 rounded-full object-cover ring-1 ring-white/20"
+              width={48}
+              height={48}
+              className="size-12 shrink-0 rounded-full object-cover object-center ring-1 ring-white/15"
             />
           ) : null}
           <span className="truncate text-[0.95rem] font-medium tracking-[-0.02em] text-[#f4f1ea]">

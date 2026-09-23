@@ -1,7 +1,6 @@
 "use client"
 
-import { useEffect, useLayoutEffect, useRef, useState } from "react"
-import dynamic from "next/dynamic"
+import { useLayoutEffect, useRef, useState } from "react"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { ArrowUpRight } from "lucide-react"
@@ -13,31 +12,9 @@ import { cn } from "@/lib/utils"
 
 gsap.registerPlugin(ScrollTrigger)
 
-const HeroScene = dynamic(
-  () => import("@/components/hero-scene").then((mod) => mod.HeroScene),
-  { ssr: false }
-)
-
-type OrbitApi = { nudge: (direction: number) => void }
-
 export function Hero() {
   const root = useRef<HTMLElement>(null)
-  const frame = useRef<HTMLDivElement>(null)
-  const angleRef = useRef<HTMLSpanElement>(null)
-  const apiRef = useRef<OrbitApi | null>(null)
-  const [active, setActive] = useState(true)
   const [copied, setCopied] = useState(false)
-
-  useEffect(() => {
-    const node = frame.current
-    if (!node) return
-    const observer = new IntersectionObserver(
-      ([entry]) => setActive(entry.isIntersecting),
-      { threshold: 0.08 }
-    )
-    observer.observe(node)
-    return () => observer.disconnect()
-  }, [])
 
   useLayoutEffect(() => {
     if (prefersReducedMotion()) return
@@ -70,12 +47,6 @@ export function Hero() {
     }, root)
     return () => context.revert()
   }, [])
-
-  const onKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
-    if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return
-    event.preventDefault()
-    apiRef.current?.nudge(event.key === "ArrowRight" ? 1 : -1)
-  }
 
   const copyEmail = async () => {
     try {
@@ -145,30 +116,21 @@ export function Hero() {
           </dl>
         </div>
 
-        <div
-          ref={frame}
-          tabIndex={0}
-          role="application"
-          aria-label="Portrait of Sarvesh Kurhade. Drag to orbit a full 360 degrees, or use the left and right arrow keys."
-          data-cursor="grow"
-          onKeyDown={onKeyDown}
-          className="hero-fade relative h-[78vw] min-h-[420px] max-h-[760px] outline-none max-lg:order-first focus-visible:ring-2 focus-visible:ring-[#8fd0c8] lg:h-full lg:min-h-[640px] lg:max-h-none"
-        >
-          <div className="pointer-events-none absolute inset-[10%] rounded-full bg-[radial-gradient(circle,rgba(143,208,200,0.16),transparent_68%)]" />
-          <span className="corner corner-tl" />
-          <span className="corner corner-tr" />
-          <span className="corner corner-bl" />
-          <span className="corner corner-br" />
-          <div className="absolute inset-0">
-            <HeroScene angleRef={angleRef} apiRef={apiRef} active={active} />
+        <figure className="hero-fade max-lg:order-first lg:justify-self-end">
+          <div className="mx-auto w-full max-w-[26rem] border border-white/10 bg-[#121418] p-2.5 sm:p-3 lg:mx-0 lg:max-w-[32rem]">
+            <img
+              src={profile.portrait}
+              alt="Sarvesh Kurhade standing outdoors in a blue blazer"
+              width={1200}
+              height={1707}
+              className="block h-auto w-full"
+            />
           </div>
-          <div className="pointer-events-none absolute inset-x-4 bottom-3 flex items-center justify-between font-mono text-[0.68rem] tracking-[0.16em] text-[#c9d4ce] uppercase">
-            <span>
-              Orbit <span ref={angleRef}>000°</span>
-            </span>
-            <span className="hidden sm:inline">Drag to move around the portrait</span>
-          </div>
-        </div>
+          <figcaption className="mx-auto mt-3 flex max-w-[26rem] items-baseline justify-between gap-4 lg:max-w-[32rem]">
+            <span className="text-sm text-[#f4f1ea]">{profile.name}</span>
+            <span className="text-sm text-[#8e9892]">{profile.location}</span>
+          </figcaption>
+        </figure>
       </div>
     </section>
   )
