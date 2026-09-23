@@ -104,7 +104,7 @@ export function Hero() {
               <span className="hero-rise block">Sarvesh</span>
             </span>
             <span className="block overflow-hidden">
-              <span className="hero-rise block font-serif font-normal text-[#8fd0c8] italic">
+              <span className="hero-rise block font-medium tracking-[-0.045em] text-[#8fd0c8]">
                 Kurhade
               </span>
             </span>

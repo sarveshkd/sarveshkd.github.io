@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react"
 import { Menu, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { nav } from "@/lib/content"
+import { nav, profile } from "@/lib/content"
 import { cn } from "@/lib/utils"
 
 export function SiteHeader() {
@@ -62,21 +62,16 @@ export function SiteHeader() {
         aria-hidden
       />
       <div className="mx-auto flex h-[4.25rem] max-w-[1400px] items-center justify-between px-5 md:px-8">
-        <a href="#top" className="group flex items-center gap-3" data-cursor="grow">
-          <span className="grid size-10 place-items-center rounded-2xl border border-white/10 bg-white/[0.03] transition-transform duration-300 group-hover:rotate-6">
-            <svg viewBox="0 0 64 64" className="size-6" fill="none" aria-hidden>
-              <path
-                d="M15 18h23l-9 14h20L27 50h12"
-                stroke="currentColor"
-                strokeWidth="4"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </span>
-          <span className="text-sm tracking-[0.08em] text-[#f4f1ea] uppercase">
-            SK
-            <span className="hidden text-[#8e9892] sm:inline"> / Cloud Portfolio</span>
+        <a href="#top" className="group flex min-w-0 items-center gap-3" data-cursor="grow">
+          {profile.photo ? (
+            <img
+              src={profile.photo}
+              alt=""
+              className="size-10 shrink-0 rounded-full object-cover"
+            />
+          ) : null}
+          <span className="truncate text-[0.95rem] font-medium tracking-[-0.02em] text-[#f4f1ea]">
+            {profile.name}
           </span>
         </a>
 

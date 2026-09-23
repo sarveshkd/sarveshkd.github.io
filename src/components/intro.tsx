@@ -39,8 +39,8 @@ export function Intro() {
       className="intro-screen pointer-events-none fixed inset-0 z-[90] flex items-center justify-center bg-[#08090b]"
       aria-hidden
     >
-      <p className="intro-mark font-serif text-5xl italic tracking-tight text-[#8fd0c8]">
-        SK
+      <p className="intro-mark px-6 text-center font-sans text-[clamp(2rem,6vw,3.15rem)] font-medium tracking-[-0.04em] text-[#f4f1ea]">
+        Sarvesh <span className="text-[#8fd0c8]">Kurhade</span>
       </p>
     </div>
   )
